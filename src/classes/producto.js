@@ -22,7 +22,7 @@ let productos = [
 //Uncommentar debajo para probar else en listar()
 // productos = [];
 
-export class Apifunction {
+export class Producto {
     constructor (title, price, thumbnail, id) {
         this.title = title;
         this.price = price;
@@ -49,12 +49,26 @@ export class Apifunction {
         
     }
     guardar (req, res) {
-        const producto = req.body;
+        const producto = new Producto(req.body.title, req.body.price, req.body.thumbnail)
         productos.push(producto);
         const len = productos.length
         productos[len-1].id = len
         console.log(productos);
-        return "recibido";
+        return "producto guardado";
+    }
+    actualizar(req, res) {
+        const productoID = parseInt(req.params.id);
+        const body = req.body;
+        const producto = new Producto(body.title, body.price, body.thumbnail, productoID);
+        productos[productoID-1] = producto;
+        return productos;
+    }
+    borrar (req, res) {
+        const productoID = parseInt(req.params.id);
+        const producto = new Producto(undefined, undefined, undefined, productoID);
+        const productoEliminado = productos[productoID-1];
+        productos[productoID-1] = producto;
+        return productoEliminado;
     }
 }
 

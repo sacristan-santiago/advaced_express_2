@@ -1,7 +1,7 @@
 import express from "express";
-import {Apifunction} from "./apifunction.js"
+import path from "path";
+import productosRouter from "./routes/productos.js"
 
-let api = new Apifunction;
 
 const app = express ();
 app.use(express.json());
@@ -18,14 +18,8 @@ server.on("error", (err)=> {
     console.log("Error=>", err)
 })
 
-app.get("/api/productos/listar", (req, res ) => {
-    res.json(api.listar());
-})
+app.use("/api/productos", productosRouter);
 
-app.get("/api/productos/listar/:id", (req, res ) => {
-    res.json(api.listarID(req));
-})
-
-app.post("/api/productos/guardar", (req, res ) => {
-    res.send(api.guardar(req));
-})
+//disponibilizando formulario publico en: http://localhost:8080/public/index.html
+const publicPath = path.resolve(__dirname, "../public");
+app.use("/public", express.static(publicPath));

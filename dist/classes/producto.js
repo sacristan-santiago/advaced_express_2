@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Apifunction = void 0;
+exports.Producto = void 0;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -29,9 +29,9 @@ var productos = [{
 }]; //Uncommentar debajo para probar else en listar()
 // productos = [];
 
-var Apifunction = /*#__PURE__*/function () {
-  function Apifunction(title, price, thumbnail, id) {
-    _classCallCheck(this, Apifunction);
+var Producto = /*#__PURE__*/function () {
+  function Producto(title, price, thumbnail, id) {
+    _classCallCheck(this, Producto);
 
     this.title = title;
     this.price = price;
@@ -39,7 +39,7 @@ var Apifunction = /*#__PURE__*/function () {
     this.id = id;
   }
 
-  _createClass(Apifunction, [{
+  _createClass(Producto, [{
     key: "listar",
     value: function listar() {
       if (productos[0] != null) {
@@ -67,16 +67,34 @@ var Apifunction = /*#__PURE__*/function () {
   }, {
     key: "guardar",
     value: function guardar(req, res) {
-      var producto = req.body;
+      var producto = new Producto(req.body.title, req.body.price, req.body.thumbnail);
       productos.push(producto);
       var len = productos.length;
       productos[len - 1].id = len;
       console.log(productos);
-      return "recibido";
+      return "producto guardado";
+    }
+  }, {
+    key: "actualizar",
+    value: function actualizar(req, res) {
+      var productoID = parseInt(req.params.id);
+      var body = req.body;
+      var producto = new Producto(body.title, body.price, body.thumbnail, productoID);
+      productos[productoID - 1] = producto;
+      return productos;
+    }
+  }, {
+    key: "borrar",
+    value: function borrar(req, res) {
+      var productoID = parseInt(req.params.id);
+      var producto = new Producto(undefined, undefined, undefined, productoID);
+      var productoEliminado = productos[productoID - 1];
+      productos[productoID - 1] = producto;
+      return productoEliminado;
     }
   }]);
 
-  return Apifunction;
+  return Producto;
 }();
 
-exports.Apifunction = Apifunction;
+exports.Producto = Producto;

@@ -2,11 +2,12 @@
 
 var _express = _interopRequireDefault(require("express"));
 
-var _apifunction = require("./apifunction.js");
+var _path = _interopRequireDefault(require("path"));
+
+var _productos = _interopRequireDefault(require("./routes/productos.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var api = new _apifunction.Apifunction();
 var app = (0, _express["default"])();
 app.use(_express["default"].json());
 app.use(_express["default"].urlencoded({
@@ -19,12 +20,8 @@ var server = app.listen(puerto, function () {
 server.on("error", function (err) {
   console.log("Error=>", err);
 });
-app.get("/api/productos/listar", function (req, res) {
-  res.json(api.listar());
-});
-app.get("/api/productos/listar/:id", function (req, res) {
-  res.json(api.listarID(req));
-});
-app.post("/api/productos/guardar", function (req, res) {
-  res.send(api.guardar(req));
-});
+app.use("/api/productos", _productos["default"]); //disponibilizando formulario publico en: http://localhost:8080/public/index.html
+
+var publicPath = _path["default"].resolve(__dirname, "../public");
+
+app.use("/public", _express["default"]["static"](publicPath));

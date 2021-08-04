@@ -1,9 +1,16 @@
 node_modules
 
 src/ejercicio1.js
-
-src/ejercicio2.js
-
 dist/ejercicio1.js
 
+src/ejercicio2.js
 dist/ejercicio2.js
+
+src/routes/mascotas.js
+dist/routes/mascotas.js
+
+src/routes/personas.js
+dist/routes/personas.js
+
+public/horacio2.jpeg
+public/horacio3.jpeg
